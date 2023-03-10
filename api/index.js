@@ -80,6 +80,10 @@ app.get("/profile", (req, res) => {
   }
 });
 
+app.post("/logout", (req, res) => {
+  res.cookie("token", "").json(true);
+});
+
 app.listen(4000);
 
 // jiM8YQrd2uVyS5f7
