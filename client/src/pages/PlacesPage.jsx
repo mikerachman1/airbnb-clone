@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function PlacesPage() {
   const { action } = useParams();
@@ -14,6 +15,35 @@ export default function PlacesPage() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
+
+  async function addPhotoByLink(e) {
+    e.preventDefault();
+    const { data: filename } = await axios.post("/upload-by-link", {
+      link: photoLink,
+    });
+    setAddedPhotos((prev) => {
+      return [...prev, filename];
+    });
+    setPhotoLink("");
+  }
+
+  function uploadPhoto(e) {
+    const files = e.target.files;
+    const data = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      data.append("photos", files[i]);
+    }
+    axios
+      .post("/upload", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((response) => {
+        const { data: filenames } = response;
+        setAddedPhotos((prev) => {
+          return [...prev, ...filenames];
+        });
+      });
+  }
 
   return (
     <div>
@@ -48,18 +78,49 @@ export default function PlacesPage() {
             <input
               type="text"
               placeholder="title, for example: My lovely apartment"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <h2 className="text-xl mt-4">Address</h2>
-            <input type="text" placeholder="address" />
+            <input
+              type="text"
+              placeholder="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
             <h2 className="text-xl mt-4">Photos</h2>
             <div className="flex gap-2">
-              <input type="text" placeholder={"Add using link ...jpg"} />
-              <button className="bg-gray-200 px-4 rounded-2xl">
+              <input
+                type="text"
+                placeholder={"Add using link ...jpg"}
+                value={photoLink}
+                onChange={(e) => setPhotoLink(e.target.value)}
+              />
+              <button
+                onClick={addPhotoByLink}
+                className="bg-gray-200 px-4 rounded-2xl"
+              >
                 Add&nbsp;photo
               </button>
             </div>
-            <div className="mt-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-              <button className="flex gap-1 justify-center border bg-transparent rounded-2xl p-8 text-2xl text-gray-600">
+            <div className="mt-2 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+              {addedPhotos.length > 0 &&
+                addedPhotos.map((link) => (
+                  <div className="h-32 flex">
+                    <img
+                      className="rounded-2xl w-full object-cover"
+                      src={"http://localhost:4000/uploads/" + link}
+                      alt="photo"
+                    />
+                  </div>
+                ))}
+              <label className="h-32 flex cursor-pointer items-center gap-1 justify-center border bg-transparent rounded-2xl p-2 text-2xl text-gray-600">
+                <input
+                  type="file"
+                  multiple
+                  className="hidden"
+                  onChange={uploadPhoto}
+                />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -75,10 +136,13 @@ export default function PlacesPage() {
                   />
                 </svg>
                 Upload
-              </button>
+              </label>
             </div>
             <h2 className="text-xl mt-4">Description</h2>
-            <textarea></textarea>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
             <h2 className="text-xl mt-4">Perks</h2>
             <div className="grid gap-2 grid-cols-2 md:grid-cols-4 lg:grid-cols-6 mt-2">
               <label className="border p-4 flex rounded-2xl gap-2 items-center">
@@ -159,20 +223,38 @@ export default function PlacesPage() {
               </label>
             </div>
             <h2 className="text-xl mt-4">Extra Info</h2>
-            <textarea></textarea>
+            <textarea
+              value={extraInfo}
+              onChange={(e) => setExtraInfo(e.target.value)}
+            />
             <h2 className="text-xl mt-4">Check in & out time</h2>
             <div className="grid gap-2 sm:grid-cols-3">
               <div>
                 <h3 className="mt-2 -mb1">Check in time</h3>
-                <input type="text" placeholder="16:00" />
+                <input
+                  type="text"
+                  placeholder="16:00"
+                  value={checkIn}
+                  onChange={(e) => setCheckIn(e.target.value)}
+                />
               </div>
               <div>
                 <h3 className="mt-2 -mb1">Check out time</h3>
-                <input type="text" placeholder="11:00" />
+                <input
+                  type="text"
+                  placeholder="11:00"
+                  value={checkOut}
+                  onChange={(e) => setCheckOut(e.target.value)}
+                />
               </div>
               <div>
                 <h3 className="mt-2 -mb1">Max number of guests</h3>
-                <input type="text" placeholder="6" />
+                <input
+                  type="number"
+                  placeholder="6"
+                  value={maxGuests}
+                  onChange={(e) => setMaxGuests(e.target.value)}
+                />
               </div>
             </div>
             <button className="primary mt-4">Save</button>
