@@ -81,8 +81,8 @@ export default function PlacesFormPage() {
           <div>
             <h3 className="mt-2 -mb1">Check in time</h3>
             <input
-              type="text"
-              placeholder="16:00"
+              type="number"
+              placeholder="16"
               value={checkIn}
               onChange={(e) => setCheckIn(e.target.value)}
             />
@@ -90,8 +90,8 @@ export default function PlacesFormPage() {
           <div>
             <h3 className="mt-2 -mb1">Check out time</h3>
             <input
-              type="text"
-              placeholder="11:00"
+              type="number"
+              placeholder="11"
               value={checkOut}
               onChange={(e) => setCheckOut(e.target.value)}
             />
