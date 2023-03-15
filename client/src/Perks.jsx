@@ -11,7 +11,12 @@ export default function Perks({ perks, setPerks }) {
   return (
     <div className="grid gap-2 grid-cols-2 md:grid-cols-4 lg:grid-cols-6 mt-2">
       <label className="border p-4 flex rounded-2xl gap-2 items-center">
-        <input type="checkbox" name="wifi" onChange={handleCbClick} />
+        <input
+          type="checkbox"
+          checked={perks.includes("wifi")}
+          name="wifi"
+          onChange={handleCbClick}
+        />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -30,7 +35,12 @@ export default function Perks({ perks, setPerks }) {
         <span>Wifi</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center">
-        <input type="checkbox" name="parking" onChange={handleCbClick} />
+        <input
+          type="checkbox"
+          checked={perks.includes("parking")}
+          name="parking"
+          onChange={handleCbClick}
+        />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -49,7 +59,12 @@ export default function Perks({ perks, setPerks }) {
         <span>Free Parking</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center">
-        <input type="checkbox" name="pet" onChange={handleCbClick} />
+        <input
+          type="checkbox"
+          checked={perks.includes("pet")}
+          name="pet"
+          onChange={handleCbClick}
+        />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -68,7 +83,12 @@ export default function Perks({ perks, setPerks }) {
         <span>Pet Friendly</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center">
-        <input type="checkbox" name="tv" onChange={handleCbClick} />
+        <input
+          type="checkbox"
+          checked={perks.includes("tv")}
+          name="tv"
+          onChange={handleCbClick}
+        />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
