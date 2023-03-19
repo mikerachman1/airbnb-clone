@@ -27,7 +27,7 @@ app.use(
   })
 );
 
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL).catch((e) => console.log(e));
 
 app.get("/test", (req, res) => {
   res.json("test ok");
@@ -50,7 +50,6 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-
   const userDoc = await UserModel.findOne({ email });
   if (userDoc) {
     const passOk = bcrypt.compareSync(password, userDoc.password);
