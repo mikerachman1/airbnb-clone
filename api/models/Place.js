@@ -10,7 +10,7 @@ const placeSchema = new Schema({
   perks: [String],
   extraInfo: String,
   checkIn: Number,
-  checkout: Number,
+  checkOut: Number,
   maxGuests: Number,
   price: Number,
 });

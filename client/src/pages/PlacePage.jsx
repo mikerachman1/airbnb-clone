@@ -135,6 +135,20 @@ export default function PlacePage() {
           Show more photos
         </button>
       </div>
+      <div className="my-4">
+        <h2 className="font-semibold text-2xl">Description</h2>
+        {place.description}
+      </div>
+      <div className="grid grid-cols-2">
+        <div>
+          Check-in: {place.checkIn}
+          <br />
+          Check-out: {place.checkOut}
+          <br />
+          Max Guests: {place.maxGuests}
+        </div>
+        <div>b</div>
+      </div>
     </div>
   );
 }
